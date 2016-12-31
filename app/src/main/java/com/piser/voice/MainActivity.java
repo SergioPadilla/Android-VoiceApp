@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,8 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private Button events;
+    private ListView events_list;
+    private EventsAdapter adapter;
 
     private List<CalendarEvent> calendarEvents;
 
@@ -34,9 +37,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         calendarEvents = new ArrayList<>();
+        adapter = new EventsAdapter(MainActivity.this);
 
         events = (Button) findViewById(R.id.button_events);
+        events_list = (ListView) findViewById(R.id.events_list);
 
+        events_list.setAdapter(adapter);
         events.setOnClickListener(getEvents());
     }
 
@@ -76,9 +82,10 @@ public class MainActivity extends AppCompatActivity {
                         String dtStart = cursor.getString(PROJECTION_DTSTART_INDEX);
 
                         calendarEvents.add(new CalendarEvent(calID, event_title, dtStart));
-                        // TODO: show the information about events (load adapter)
                     }
                 }
+
+                adapter.loadEvents(calendarEvents);
             }
         };
     }

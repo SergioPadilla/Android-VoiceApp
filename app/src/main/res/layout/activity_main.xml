@@ -10,7 +10,14 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.piser.voice.MainActivity">
 
+    <ListView
+        android:id="@+id/events_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/button_events" />
+
     <Button
+        android:layout_alignParentBottom="true"
         android:id="@+id/button_events"
         android:layout_width="match_parent"
         android:layout_height="60dp"

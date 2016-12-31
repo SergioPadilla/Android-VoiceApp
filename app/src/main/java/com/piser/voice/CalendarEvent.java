@@ -16,15 +16,15 @@ public class CalendarEvent {
         start_time = time;
     }
 
-    private long getID() {
+    public long getID() {
         return calendar_id;
     }
 
-    private String getTitle() {
+    public String getTitle() {
         return event_title;
     }
 
-    private String getTimeStart() {
+    public String getTimeStart() {
         return start_time;
     }
 }
