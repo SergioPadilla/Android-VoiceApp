@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Voice</string>
+    <string name="speechbtn">Press the button to speak</string>
+    <string name="feedback_init">Press the button to start the fun</string>
 </resources>

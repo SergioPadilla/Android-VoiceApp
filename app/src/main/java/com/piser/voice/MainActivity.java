@@ -2,6 +2,7 @@ package com.piser.voice;
 
 import android.Manifest;
 import android.content.ContentResolver;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
@@ -19,6 +20,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private Button events;
+    private Button create_event;
     private ListView events_list;
     private EventsAdapter adapter;
 
@@ -40,10 +42,12 @@ public class MainActivity extends AppCompatActivity {
         adapter = new EventsAdapter(MainActivity.this);
 
         events = (Button) findViewById(R.id.button_events);
+        create_event = (Button) findViewById(R.id.button_create_events);
         events_list = (ListView) findViewById(R.id.events_list);
 
         events_list.setAdapter(adapter);
         events.setOnClickListener(getEvents());
+        create_event.setOnClickListener(createEvent());
     }
 
     private View.OnClickListener getEvents() {
@@ -86,6 +90,15 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 adapter.loadEvents(calendarEvents);
+            }
+        };
+    }
+
+    private View.OnClickListener createEvent() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, CreateEvent.class));
             }
         };
     }
