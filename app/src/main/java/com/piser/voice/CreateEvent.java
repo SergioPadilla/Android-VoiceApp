@@ -68,7 +68,7 @@ public class CreateEvent extends AppCompatActivity implements RecognitionListene
             @Override
             public void onClick(View v) {
                 setRecognitionParams(); //Read speech recognition parameters from GUI
-                listen(Locale.FRENCH, languageModel, numberRecoResults); 				//Set up the recognizer with the parameters and start listening
+                listen(Locale.ENGLISH, languageModel, numberRecoResults); 	//Set up the recognizer with the parameters and start listening
             }
         });
 
