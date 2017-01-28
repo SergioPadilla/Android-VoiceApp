@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.provider.CalendarContract.Events;
 import android.speech.SpeechRecognizer;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -34,26 +36,18 @@ public class CreateEvent extends ASRActivity {
         initComponents();
 
         feedback = (TextView) findViewById(R.id.feedbackTxt);
-        Button speak = (Button) findViewById(R.id.speech_btn);
 
-        speak.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listen();
-            }
-        });
-
-        Calendar beginTime = Calendar.getInstance();
-        beginTime.set(begin_year, begin_month, begin_day, begin_hour, begin_minutes);
-        Calendar endTime = Calendar.getInstance();
-        endTime.set(end_year, end_month, end_day, end_hour, end_minutes);
-        Intent intent = new Intent(Intent.ACTION_INSERT)
-                .setData(Events.CONTENT_URI)
-                .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, beginTime.getTimeInMillis())
-                .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endTime.getTimeInMillis())
-                .putExtra(Events.TITLE, event_title)
-                .putExtra(Events.DESCRIPTION, event_description);
-        startActivity(intent);
+//        Calendar beginTime = Calendar.getInstance();
+//        beginTime.set(begin_year, begin_month, begin_day, begin_hour, begin_minutes);
+//        Calendar endTime = Calendar.getInstance();
+//        endTime.set(end_year, end_month, end_day, end_hour, end_minutes);
+//        Intent intent = new Intent(Intent.ACTION_INSERT)
+//                .setData(Events.CONTENT_URI)
+//                .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, beginTime.getTimeInMillis())
+//                .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endTime.getTimeInMillis())
+//                .putExtra(Events.TITLE, event_title)
+//                .putExtra(Events.DESCRIPTION, event_description);
+//        startActivity(intent);
     }
 
     /***********************************************************************************************
@@ -73,7 +67,6 @@ public class CreateEvent extends ASRActivity {
                 nBestView.add(nBestList.get(0));
 
             setListView(nBestView);
-
         }
 
         stopListening();
@@ -93,5 +86,21 @@ public class CreateEvent extends ASRActivity {
     @Override
     public void writeFeedback(String message) {
         feedback.setText(message);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.ai_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == R.id.action_record_voice) {
+            listen();
+            return true;
+        }
+        else
+            return super.onOptionsItemSelected(item);
     }
 }
