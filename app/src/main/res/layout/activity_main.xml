@@ -6,33 +6,11 @@
     android:layout_height="match_parent"
     tools:context="com.piser.voice.MainActivity">
 
-    <LinearLayout
-        android:id="@+id/button_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_alignParentBottom="true">
 
-        <Button
-            android:id="@+id/button_events"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:text="Eventos"/>
-
-        <Button
-            android:id="@+id/button_create_events"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:text="Crear Evento"/>
-    </LinearLayout>
 
     <ListView
         android:id="@+id/events_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/button_container" />
+        android:layout_height="match_parent"/>
+
 </RelativeLayout>

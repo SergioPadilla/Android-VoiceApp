@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -88,19 +89,4 @@ public class CreateEvent extends ASRActivity {
         feedback.setText(message);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.ai_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == R.id.action_record_voice) {
-            listen();
-            return true;
-        }
-        else
-            return super.onOptionsItemSelected(item);
-    }
 }

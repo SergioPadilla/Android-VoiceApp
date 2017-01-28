@@ -13,6 +13,8 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import java.util.List;
@@ -214,6 +216,22 @@ public abstract class ASRActivity extends AppCompatActivity implements Recogniti
                 Toast.makeText(getApplicationContext(), "Sorry, RichASR cannot work without accessing the microphone", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.ai_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == R.id.action_record_voice) {
+            listen();
+            return true;
+        }
+        else
+            return super.onOptionsItemSelected(item);
     }
 
     public abstract void writeFeedback(String message);
