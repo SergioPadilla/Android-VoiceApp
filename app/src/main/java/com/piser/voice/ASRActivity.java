@@ -168,12 +168,15 @@ public abstract class ASRActivity extends AppCompatActivity implements Recogniti
                     break;
                 case SpeechRecognizer.ERROR_NETWORK:
                     errorMsg = "Network related error";
+                    Toast.makeText(getApplicationContext(), "There is a problem with your " +
+                            "internet connection, please, check it", Toast.LENGTH_LONG).show();
                     break;
                 case SpeechRecognizer.ERROR_NETWORK_TIMEOUT:
                     errorMsg = "Network operation timed out";
                     break;
                 case SpeechRecognizer.ERROR_NO_MATCH:
                     errorMsg = "No recognition result matched";
+                    errorRecognition();
                     break;
                 case SpeechRecognizer.ERROR_RECOGNIZER_BUSY:
                     errorMsg = "RecognitionService busy";
@@ -243,4 +246,5 @@ public abstract class ASRActivity extends AppCompatActivity implements Recogniti
     }
 
     public abstract void writeFeedback(String message);
+    public abstract void errorRecognition();
 }

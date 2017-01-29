@@ -8,12 +8,10 @@ public class CalendarEvent {
 
     private long calendar_id;
     private String event_title;
-    private String start_time;
 
-    CalendarEvent(long id, String title, String time) {
+    CalendarEvent(long id, String title) {
         calendar_id = id;
         event_title = title;
-        start_time = time;
     }
 
     public long getID() {
@@ -22,9 +20,5 @@ public class CalendarEvent {
 
     public String getTitle() {
         return event_title;
-    }
-
-    public String getTimeStart() {
-        return start_time;
     }
 }

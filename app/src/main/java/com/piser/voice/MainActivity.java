@@ -4,27 +4,16 @@ import android.Manifest;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.CalendarContract.Events;
 import android.speech.SpeechRecognizer;
-import android.speech.tts.TextToSpeech;
-import android.speech.tts.TextToSpeech.OnInitListener;
 import android.support.v4.app.ActivityCompat;
 import android.widget.ListView;
-import android.widget.Toast;
-
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.appindexing.Thing;
-import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Created by SergioPadilla on 31/12/16.
@@ -39,10 +28,7 @@ public class MainActivity extends TTSARSActivity {
 
     // The indexes for the projection
     private static final int PROJECTION_CALENDAR_ID_INDEX = 0;
-    private static final int PROJECTION_ORGANIZER_INDEX = 1;
     private static final int PROJECTION_TITLE_INDEX = 2;
-    private static final int PROJECTION_DESCRIPTION_INDEX = 3;
-    private static final int PROJECTION_DTSTART_INDEX = 4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,23 +65,20 @@ public class MainActivity extends TTSARSActivity {
         Cursor cursor = null;
         ContentResolver cr = getContentResolver();
         Uri uri = Events.CONTENT_URI;
-    //                String selection = "((" + Calendars.ACCOUNT_NAME + " = ?) AND ("
-    //                        + Calendars.ACCOUNT_TYPE + " = ?) AND ("
-    //                        + Calendars.OWNER_ACCOUNT + " = ?))";
         String selection = "";
         String[] selectionArgs = new String[]{};
         // Submit the query and get a Cursor object back.
         cursor = cr.query(uri, EVENT_PROJECTION, selection, selectionArgs, null);
 
         // Use the cursor to step through the returned records
-        if (cursor.getCount() > 0) {
+        if (cursor != null && cursor.getCount() > 0) {
             while (cursor.moveToNext()) {
                 long calID = cursor.getLong(PROJECTION_CALENDAR_ID_INDEX);
                 String event_title = cursor.getString(PROJECTION_TITLE_INDEX);
-                String dtStart = cursor.getString(PROJECTION_DTSTART_INDEX);
 
-                calendarEvents.add(new CalendarEvent(calID, event_title, dtStart));
+                calendarEvents.add(new CalendarEvent(calID, event_title));
             }
+            cursor.close();
         }
 
         adapter.loadEvents(calendarEvents);
@@ -121,7 +104,7 @@ public class MainActivity extends TTSARSActivity {
                 getEvents();
             }
             else if (Models.HELP.equals(result)) {
-                talk(Models.INSTRUCTIONS);
+                talk(Models.INSTRUCTIONS_MAIN);
                 listen();
             }
             else {

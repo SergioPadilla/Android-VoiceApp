@@ -1,32 +1,161 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="#ffffff"
     android:orientation="vertical"
+    android:padding="16dp"
     android:paddingBottom="5dp" >
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ASR Feedback"
-        android:textSize="15sp"
-        android:id="@+id/feedbackLabel" />
-
-    <TextView
-        android:layout_width="274dp"
-        android:layout_height="40dp"
-        android:gravity="center"
-        android:text="@string/feedback_init"
-        android:id="@+id/feedbackTxt"
-        android:background="#f8f5cd"
-        android:textSize="15sp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="5dp"/>
-
-    <ListView
-        android:id="@+id/nbest_listview"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:text="Create Event"
+        android:textSize="24sp"
+        android:id="@+id/create_event_title_section"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"/>
 
-    </ListView>
-</LinearLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/create_event_title_section">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16dp"
+                    android:textColor="#000"
+                    android:text="Title: "/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/create_event_title"
+                    android:textSize="16dp"
+                    android:textColor="#d2b40000"
+                    android:text=""/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16dp"
+                    android:textColor="#000"
+                    android:text="Description: "/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/create_event_description"
+                    android:textSize="16dp"
+                    android:textColor="#d2b40000"
+                    android:text=""/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16dp"
+                    android:textColor="#000"
+                    android:text="Day: "/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/create_event_day"
+                    android:textSize="16dp"
+                    android:textColor="#d2b40000"
+                    android:text=""/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16dp"
+                    android:textColor="#000"
+                    android:text="Month: "/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/create_event_month"
+                    android:textSize="16dp"
+                    android:textColor="#d2b40000"
+                    android:text=""/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16dp"
+                    android:textColor="#000"
+                    android:text="Year: "/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/create_event_year"
+                    android:textSize="16dp"
+                    android:textColor="#d2b40000"
+                    android:text=""/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16dp"
+                    android:textColor="#000"
+                    android:text="Hour: "/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/create_event_hour"
+                    android:textSize="16dp"
+                    android:textColor="#d2b40000"
+                    android:text=""/>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

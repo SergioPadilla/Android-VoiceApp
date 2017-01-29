@@ -15,18 +15,18 @@ import java.util.Locale;
 
 public abstract class TTSARSActivity extends ASRActivity {
 
-    int TTS_CODE_REQUEST = 12;    // Request code to identify the intent that looks for a TTS Engine in the device
+    int TTS_CODE_REQUEST = 12;
     TextToSpeech tts = null;
+    String welcomeMessage;
 
     @Override
     protected void initComponents() {
         super.initComponents();
         initTTS();
+        welcomeMessage = Models.WELCOME;
     }
 
     public void initTTS() {
-        //Check if the engine is installed, when the check is finished, the
-        //onActivityResult method is automatically invoked
         Intent checkIntent = new Intent(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
         startActivityForResult(checkIntent, TTS_CODE_REQUEST);
     }
@@ -50,8 +50,8 @@ public abstract class TTSARSActivity extends ASRActivity {
                     public void onInit(int status) {
                         if (status == TextToSpeech.SUCCESS) {
                             Toast.makeText(TTSARSActivity.this, "TTS initialized", Toast.LENGTH_LONG).show();
-                            tts.setLanguage( new Locale("ES"));
-                            talk(Models.WELCOME);
+                            tts.setLanguage(new Locale("ES"));
+                            talk(welcomeMessage);
                         }
                     }
                 });
@@ -70,5 +70,10 @@ public abstract class TTSARSActivity extends ASRActivity {
                 }
             }
         }
+    }
+
+    @Override
+    public void errorRecognition() {
+        talk(Models.ERRORRECOGNITION);
     }
 }
