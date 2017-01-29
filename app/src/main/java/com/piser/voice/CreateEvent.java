@@ -8,18 +8,13 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 /**
  * Created by SergioPadilla on 31/12/16.
  */
 
 public class CreateEvent extends TTSARSActivity {
-
-    // Month range (0-11)
-    private int begin_day, begin_month, begin_year, begin_hour, begin_minutes;
-    private int end_day, end_month, end_year, end_hour, end_minutes;
-    private String event_title;
-    private String event_description;
 
     private TextView day;
     private TextView month;
@@ -59,35 +54,32 @@ public class CreateEvent extends TTSARSActivity {
         if (results != null) {
             ArrayList<String> recognitions = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
             String result = recognitions.get(0).toLowerCase();
-            if (Models.HELP.equals(result)) {
-                talk(Models.INSTRUCTIONS_CREATE);
-                listen();
-            }
-            else if (Models.REMOVE.equals(result)) {
-                remove();
-                started = false;
-                talk(Models.INSTRUCTIONS_CREATE);
-            }
-            else if(started) {
+
+            if(started) {
                 if(isEmpty(title)) {
                     title.setText(result);
-                    talk(Models.ASKFORDESCRIPTION);
+                    talkAndListen(Models.ASKFORDESCRIPTION);
                 }
                 else if(isEmpty(description)) {
                     description.setText(result);
-                    talk(Models.ASKFORDAY);
+                    talkAndListen(Models.ASKFORDAY);
                 }
                 else if(isEmpty(day)) {
                     day.setText(result);
-                    talk(Models.ASKFORMONTH);
+                    talkAndListen(Models.ASKFORMONTH);
                 }
                 else if(isEmpty(month)) {
-                    month.setText(result);
-                    talk(Models.ASKFORYEAR);
+                    if(monthIsOk(result)) {
+                        month.setText(result);
+                        talkAndListen(Models.ASKFORYEAR);
+                    }
+                    else {
+                        talkAndListen(Models.ERRORMONTH);
+                    }
                 }
                 else if(isEmpty(year)) {
                     year.setText(result);
-                    talk(Models.ASKFORHOUR);
+                    talkAndListen(Models.ASKFORHOUR);
                 }
                 else if(isEmpty(hour)) {
                     hour.setText(result);
@@ -96,10 +88,18 @@ public class CreateEvent extends TTSARSActivity {
                     started = false;
                 }
             }
+            else if (Models.HELP.equals(result)) {
+                talkAndListen(Models.INSTRUCTIONS_CREATE);
+            }
+            else if (Models.REMOVE.equals(result)) {
+                remove();
+                started = false;
+                talk(Models.INSTRUCTIONS_CREATE);
+            }
             else if(Models.START.equals(result)) {
                 remove();
                 started = true;
-                talk(Models.ASKFORTITLE);
+                talkAndListen(Models.ASKFORTITLE);
             }
             else {
                 talk(Models.TRYAGAIN);
@@ -111,7 +111,7 @@ public class CreateEvent extends TTSARSActivity {
 
     private void createEvent() {
         int begin_day = Integer.parseInt(day.getText().toString());
-        int begin_month = Integer.parseInt(month.getText().toString());
+        int begin_month = parseMonth(month.getText().toString());
         int begin_year = Integer.parseInt(year.getText().toString());
         int begin_hour = Integer.parseInt(hour.getText().toString());
 
@@ -123,8 +123,8 @@ public class CreateEvent extends TTSARSActivity {
                 .setData(CalendarContract.Events.CONTENT_URI)
                 .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, beginTime.getTimeInMillis())
                 .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endTime.getTimeInMillis())
-                .putExtra(CalendarContract.Events.TITLE, event_title)
-                .putExtra(CalendarContract.Events.DESCRIPTION, event_description);
+                .putExtra(CalendarContract.Events.TITLE, title.getText().toString())
+                .putExtra(CalendarContract.Events.DESCRIPTION, description.getText().toString());
         startActivity(intent);
     }
 
@@ -139,6 +139,26 @@ public class CreateEvent extends TTSARSActivity {
         hour.setText("");
         title.setText("");
         description.setText("");
+    }
+
+    private void talkAndListen(String message) {
+        talk(message);
+        listen();
+    }
+
+    private boolean monthIsOk(String possible) {
+        List<String> months = Models.getMonths();
+        boolean equal = false;
+
+        for(int i = 0; i < months.size() && !equal; i++) {
+            equal = months.get(i).equals(possible);
+        }
+
+        return equal;
+    }
+
+    private int parseMonth(String month) {
+        return Models.getMonthsDict().get(month);
     }
 
     @Override

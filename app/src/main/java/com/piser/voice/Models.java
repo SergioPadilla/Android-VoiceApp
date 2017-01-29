@@ -1,5 +1,6 @@
 package com.piser.voice;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Arrays;
 
@@ -54,18 +55,35 @@ public class Models {
             "En la esquina superior derecha puede encontrar un botón para comunicarse conmigo." +
             "Si quiere saber cómo funciona, pulse el botón y diga," + HELP;
     public static final String ASKFORTITLE = "¿Qué título quieres para el evento?";
-    public static final String ASKFORDESCRIPTION = "¿Qué descripción quieres para el evento?";
-    public static final String ASKFORDAY = "¿Qué día quieres el evento?";
-    public static final String ASKFORMONTH = "¿Qué mes quieres el evento?";
-    public static final String ASKFORYEAR = "¿Qué año quieres el evento?";
-    public static final String ASKFORHOUR = "¿En qué hora quieres el evento?";
+    public static final String ASKFORDESCRIPTION = "¿Qué descripción quiere para el evento?";
+    public static final String ASKFORDAY = "¿Qué día quiere el evento?";
+    public static final String ASKFORMONTH = "¿Qué mes quiere el evento?";
+    public static final String ASKFORYEAR = "¿Qué año quiere el evento?";
+    public static final String ASKFORHOUR = "¿A qué hora quiere el evento?";
     public static final String FINISH_CREATE = "Has creado un evento.";
+    public static final String ERRORMONTH = "No se ha detectado ningún mes, por favor, " + ASKFORMONTH;
 
     public static List<String> getMonths(){
         return Arrays.asList(ENERO, FEBRERO, MARZO, ABRIL, MAYO, JUNIO, JULIO, AGOSTO, SEPTIEMBRE,
                 OCTUBRE, NOVIEMBRE, DICIEMBRE);
     }
 
+    public static HashMap<String, Integer> getMonthsDict() {
+        HashMap<String, Integer> months = new HashMap<>();
+        months.put(ENERO, 0);
+        months.put(FEBRERO, 1);
+        months.put(MARZO, 2);
+        months.put(ABRIL, 3);
+        months.put(MAYO, 4);
+        months.put(JUNIO, 5);
+        months.put(JULIO, 6);
+        months.put(AGOSTO, 7);
+        months.put(SEPTIEMBRE, 8);
+        months.put(OCTUBRE, 9);
+        months.put(NOVIEMBRE, 10);
+        months.put(DICIEMBRE, 11);
 
+        return months;
+    }
 
 }
