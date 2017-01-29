@@ -1,21 +1,16 @@
 package com.piser.voice;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.provider.CalendarContract;
-import android.provider.CalendarContract.Events;
 import android.speech.SpeechRecognizer;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-
 import java.util.ArrayList;
-import java.util.Calendar;
+
+/**
+ * Created by SergioPadilla on 31/12/16.
+ */
 
 public class CreateEvent extends ASRActivity {
 

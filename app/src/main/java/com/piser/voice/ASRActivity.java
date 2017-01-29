@@ -20,6 +20,10 @@ import android.widget.Toast;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * Created by SergioPadilla on 31/12/16.
+ */
+
 public abstract class ASRActivity extends AppCompatActivity implements RecognitionListener {
 
     private static final String LOGTAG = "ASRActivity";
@@ -93,6 +97,10 @@ public abstract class ASRActivity extends AppCompatActivity implements Recogniti
             return true;
     }
 
+    void displayTalkMessage() {
+        Toast.makeText(getApplicationContext(), "Please, talk now", Toast.LENGTH_SHORT).show();
+    }
+
     public void stopListening(){
         mASR.stopListening();
         Log.e(LOGTAG, "Stopped listening");
@@ -101,7 +109,7 @@ public abstract class ASRActivity extends AppCompatActivity implements Recogniti
     @Override
     public void onReadyForSpeech(Bundle bundle) {
         writeFeedback("Ready to hear you speak!");
-        Toast.makeText(getApplicationContext(), "What do you want to search?", Toast.LENGTH_SHORT).show();
+        displayTalkMessage();
     }
 
     @Override
