@@ -8,7 +8,10 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.TimeZone;
 
 /**
  * Created by SergioPadilla on 31/12/16.
@@ -65,28 +68,43 @@ public class CreateEvent extends TTSARSActivity {
                     talkAndListen(Models.ASKFORDAY);
                 }
                 else if(isEmpty(day)) {
-                    day.setText(result);
-                    talkAndListen(Models.ASKFORMONTH);
+                    if(isInteger(result)) {
+                        if(Integer.parseInt(result) > 0 && Integer.parseInt(result) < 32) {
+                            day.setText(result);
+                            talkAndListen(Models.ASKFORMONTH);
+                        }
+                        else
+                            talkAndListen(Models.ERRORDAY2);
+                    }
+                    else
+                        talkAndListen(result + Models.ERRORDAY1);
                 }
                 else if(isEmpty(month)) {
                     if(monthIsOk(result)) {
                         month.setText(result);
                         talkAndListen(Models.ASKFORYEAR);
                     }
-                    else {
+                    else
                         talkAndListen(Models.ERRORMONTH);
-                    }
                 }
                 else if(isEmpty(year)) {
-                    year.setText(result);
-                    talkAndListen(Models.ASKFORHOUR);
+                    if(isInteger(result)) {
+                        if(Integer.parseInt(result) >= 2017) {
+                            year.setText(result);
+                            talk(Models.FINISH_CREATE);
+                            createEvent();
+                        }
+                        else
+                            talkAndListen(Models.ERRORYEAR2);
+                        //talkAndListen(Models.ASKFORHOUR);
+                    }
+                    else
+                        talkAndListen(Models.ERRORYEAR1);
                 }
-                else if(isEmpty(hour)) {
-                    hour.setText(result);
-                    talk(Models.FINISH_CREATE);
-                    createEvent();
-                    started = false;
-                }
+//                else if(isEmpty(hour)) {
+//                    hour.setText(result);
+//                    started = false;
+//                }
             }
             else if (Models.HELP.equals(result)) {
                 talkAndListen(Models.INSTRUCTIONS_CREATE);
@@ -109,11 +127,27 @@ public class CreateEvent extends TTSARSActivity {
         stopListening();
     }
 
+    private boolean isInteger(String s) {
+        try {
+            Integer.parseInt(s);
+        } catch(NumberFormatException e) {
+            return false;
+        } catch(NullPointerException e) {
+            return false;
+        }
+        // only got here if we didn't return false
+        return true;
+    }
+
     private void createEvent() {
         int begin_day = Integer.parseInt(day.getText().toString());
         int begin_month = parseMonth(month.getText().toString());
         int begin_year = Integer.parseInt(year.getText().toString());
-        int begin_hour = Integer.parseInt(hour.getText().toString());
+        //int begin_hour = Integer.parseInt(hour.getText().toString());
+        Date date = new Date();   // given date
+        Calendar calendar = GregorianCalendar.getInstance(); // creates a new calendar instance
+        calendar.setTime(date);   // assigns calendar to given date
+        int begin_hour = calendar.get(Calendar.HOUR_OF_DAY);
 
         Calendar beginTime = Calendar.getInstance();
         beginTime.set(begin_year, begin_month, begin_day, begin_hour, 0);
@@ -129,7 +163,7 @@ public class CreateEvent extends TTSARSActivity {
     }
 
     private boolean isEmpty(TextView text) {
-        return text.getText().length() > 0;
+        return text.getText().length() == 0;
     }
 
     private void remove() {
@@ -139,11 +173,6 @@ public class CreateEvent extends TTSARSActivity {
         hour.setText("");
         title.setText("");
         description.setText("");
-    }
-
-    private void talkAndListen(String message) {
-        talk(message);
-        listen();
     }
 
     private boolean monthIsOk(String possible) {

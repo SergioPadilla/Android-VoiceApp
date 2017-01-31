@@ -62,6 +62,10 @@ public class Models {
     public static final String ASKFORHOUR = "¿A qué hora quiere el evento?";
     public static final String FINISH_CREATE = "Has creado un evento.";
     public static final String ERRORMONTH = "No se ha detectado ningún mes, por favor, " + ASKFORMONTH;
+    public static final String ERRORDAY1 = " no es un número, por favor, el día debe ser mayor que 0 y menor, o igual que 31, " + ASKFORDAY;
+    public static final String ERRORDAY2 = "El día debe ser mayor que 0 y menor, o igual que 31, " + ASKFORDAY;
+    public static final String ERRORYEAR1 = " no es un número, por favor, el año debe ser un número mayor, o igual que 2017 " + ASKFORYEAR;
+    public static final String ERRORYEAR2 = "el año debe ser un número mayor, o igual que 2017 " + ASKFORYEAR;
 
     public static List<String> getMonths(){
         return Arrays.asList(ENERO, FEBRERO, MARZO, ABRIL, MAYO, JUNIO, JULIO, AGOSTO, SEPTIEMBRE,

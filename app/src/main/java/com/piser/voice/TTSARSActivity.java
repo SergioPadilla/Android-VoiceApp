@@ -5,6 +5,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Build;
 import android.speech.tts.TextToSpeech;
+import android.speech.tts.UtteranceProgressListener;
 import android.widget.Toast;
 
 import java.util.Locale;
@@ -19,6 +20,8 @@ public abstract class TTSARSActivity extends ASRActivity {
     TextToSpeech tts = null;
     String welcomeMessage;
 
+    boolean shouldListen;
+
     @Override
     protected void initComponents() {
         super.initComponents();
@@ -31,12 +34,21 @@ public abstract class TTSARSActivity extends ASRActivity {
         startActivityForResult(checkIntent, TTS_CODE_REQUEST);
     }
 
-    void talk(String message) {
+    private void talk(String message, final boolean listen) {
+        shouldListen = listen;
         if (Build.VERSION.SDK_INT >= 21) {
             tts.speak(message, TextToSpeech.QUEUE_ADD, null, "msg");
         } else {
             tts.speak(message, TextToSpeech.QUEUE_ADD, null);
         }
+    }
+
+    void talk(String message) {
+        talk(message, false);
+    }
+
+    void talkAndListen(String message) {
+        talk(message, true);
     }
 
     @Override
@@ -53,6 +65,28 @@ public abstract class TTSARSActivity extends ASRActivity {
                             tts.setLanguage(new Locale("ES"));
                             talk(welcomeMessage);
                         }
+                    }
+                });
+                tts.setOnUtteranceProgressListener(new UtteranceProgressListener() {
+                    @Override
+                    public void onStart(String utteranceId) {
+
+                    }
+
+                    @Override
+                    public void onDone(String utteranceId) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if(shouldListen)
+                                    listen();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onError(String utteranceId) {
+
                     }
                 });
             } else {
