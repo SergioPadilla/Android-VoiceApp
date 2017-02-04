@@ -4,9 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Arrays;
 
-
 /**
- * Created by jopime on 28/1/17.
+ * Created by jopime on 28/1/17
+ * Modified by SergioPadilla
  */
 
 public class Models {
@@ -89,5 +89,4 @@ public class Models {
 
         return months;
     }
-
 }

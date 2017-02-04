@@ -17,6 +17,10 @@ import java.util.List;
 
 public class EventsAdapter extends ArrayAdapter<CalendarEvent> {
 
+    /**
+     * Adapter to load each item of the list with a event
+     */
+
     List<CalendarEvent> events;
     Activity activity;
 

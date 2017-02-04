@@ -49,11 +49,13 @@ public class MainActivity extends TTSARSActivity {
     }
 
     private void getEvents() {
+        /**
+         * Method to get the events of the user and show in the list of this activity
+         */
         if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
-        // Projection array. Creating indices for this array instead of doing
-        // dynamic lookups improves performance.
+        // Projection array. Creating indices for this array
         String[] EVENT_PROJECTION = new String[]{
                 Events.CALENDAR_ID,                     // 0
                 Events.ORGANIZER,                       // 1
@@ -86,7 +88,9 @@ public class MainActivity extends TTSARSActivity {
 
     @Override
     public void writeFeedback(String message) {
-
+        /**
+         * This method is util if you can/need show the flow of ASR activity
+         */
     }
 
     @Override
@@ -96,18 +100,23 @@ public class MainActivity extends TTSARSActivity {
         if (results != null) {
             ArrayList<String> recognitions = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
             String result = recognitions.get(0).toLowerCase();
+
+            // Check the result of recognition
             if (Models.CREATE.equals(result)){
+                // User said "crear"
                 startActivity(new Intent(MainActivity.this, CreateEvent.class));
             }
             else if (Models.LIST.equals(result)) {
+                // User said "listar"
                 talk(Models.LIST_SUCCESS);
                 getEvents();
             }
             else if (Models.HELP.equals(result)) {
-                talk(Models.INSTRUCTIONS_MAIN);
-                listen();
+                // User said "ayuda"
+                talkAndListen(Models.INSTRUCTIONS_MAIN);
             }
             else {
+                // Nothing match
                 talk(Models.TRYAGAIN);
             }
         }

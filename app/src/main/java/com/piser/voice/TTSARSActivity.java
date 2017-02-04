@@ -14,6 +14,7 @@ import java.util.Locale;
  * Created by SergioPadilla on 29/1/17.
  */
 
+// The code is based in the examples from PRADO but modified
 public abstract class TTSARSActivity extends ASRActivity {
 
     int TTS_CODE_REQUEST = 12;
@@ -30,11 +31,17 @@ public abstract class TTSARSActivity extends ASRActivity {
     }
 
     public void initTTS() {
+        /*
+         * Init TTS
+         */
         Intent checkIntent = new Intent(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
         startActivityForResult(checkIntent, TTS_CODE_REQUEST);
     }
 
     private void talk(String message, final boolean listen) {
+        /*
+         * Method to talk with TTS and init the attribute to control if the activity should listen after talk
+         */
         shouldListen = listen;
         if (Build.VERSION.SDK_INT >= 21) {
             tts.speak(message, TextToSpeech.QUEUE_ADD, null, "msg");
@@ -67,6 +74,7 @@ public abstract class TTSARSActivity extends ASRActivity {
                         }
                     }
                 });
+                // Set this listener to know when finish to talk and listen if neccesary
                 tts.setOnUtteranceProgressListener(new UtteranceProgressListener() {
                     @Override
                     public void onStart(String utteranceId) {

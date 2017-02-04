@@ -11,7 +11,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.TimeZone;
 
 /**
  * Created by SergioPadilla on 31/12/16.
@@ -22,7 +21,6 @@ public class CreateEvent extends TTSARSActivity {
     private TextView day;
     private TextView month;
     private TextView year;
-    private TextView hour;
     private TextView title;
     private TextView description;
 
@@ -38,7 +36,6 @@ public class CreateEvent extends TTSARSActivity {
         day = (TextView) findViewById(R.id.create_event_day);
         month = (TextView) findViewById(R.id.create_event_month);
         year = (TextView) findViewById(R.id.create_event_year);
-        hour = (TextView) findViewById(R.id.create_event_hour);
         title = (TextView) findViewById(R.id.create_event_title);
         description = (TextView) findViewById(R.id.create_event_description);
     }
@@ -58,17 +55,21 @@ public class CreateEvent extends TTSARSActivity {
             ArrayList<String> recognitions = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
             String result = recognitions.get(0).toLowerCase();
 
-            if(started) {
+            if(started) { // check if the user started to complete the field before
                 if(isEmpty(title)) {
+                    // if started and title is empty => recognition correspond with title
                     title.setText(result);
                     talkAndListen(Models.ASKFORDESCRIPTION);
                 }
                 else if(isEmpty(description)) {
+                    // if started and description is empty => recognition correspond with description
                     description.setText(result);
                     talkAndListen(Models.ASKFORDAY);
                 }
                 else if(isEmpty(day)) {
+                    // if started and day is empty => recognition correspond with day
                     if(isInteger(result)) {
+                        // must be a number and between 1 and 31
                         if(Integer.parseInt(result) > 0 && Integer.parseInt(result) < 32) {
                             day.setText(result);
                             talkAndListen(Models.ASKFORMONTH);
@@ -80,7 +81,9 @@ public class CreateEvent extends TTSARSActivity {
                         talkAndListen(result + Models.ERRORDAY1);
                 }
                 else if(isEmpty(month)) {
+                    // if started and month is empty => recognition correspond with month
                     if(monthIsOk(result)) {
+                        // should be a real month
                         month.setText(result);
                         talkAndListen(Models.ASKFORYEAR);
                     }
@@ -88,7 +91,9 @@ public class CreateEvent extends TTSARSActivity {
                         talkAndListen(Models.ERRORMONTH);
                 }
                 else if(isEmpty(year)) {
+                    // if started and year is empty => recognition correspond with year
                     if(isInteger(result)) {
+                        // should a number and greater or equal to this year
                         if(Integer.parseInt(result) >= 2017) {
                             year.setText(result);
                             talk(Models.FINISH_CREATE);
@@ -96,30 +101,29 @@ public class CreateEvent extends TTSARSActivity {
                         }
                         else
                             talkAndListen(Models.ERRORYEAR2);
-                        //talkAndListen(Models.ASKFORHOUR);
                     }
                     else
                         talkAndListen(Models.ERRORYEAR1);
                 }
-//                else if(isEmpty(hour)) {
-//                    hour.setText(result);
-//                    started = false;
-//                }
             }
             else if (Models.HELP.equals(result)) {
+                // user said "ayuda"
                 talkAndListen(Models.INSTRUCTIONS_CREATE);
             }
             else if (Models.REMOVE.equals(result)) {
+                // user said "borrar"
                 remove();
                 started = false;
                 talk(Models.INSTRUCTIONS_CREATE);
             }
             else if(Models.START.equals(result)) {
+                // user said "comenzar"
                 remove();
                 started = true;
                 talkAndListen(Models.ASKFORTITLE);
             }
             else {
+                // Nothing match
                 talk(Models.TRYAGAIN);
             }
         }
@@ -128,6 +132,9 @@ public class CreateEvent extends TTSARSActivity {
     }
 
     private boolean isInteger(String s) {
+        /**
+         * Check if the user said some int
+         */
         try {
             Integer.parseInt(s);
         } catch(NumberFormatException e) {
@@ -140,6 +147,9 @@ public class CreateEvent extends TTSARSActivity {
     }
 
     private void createEvent() {
+        /**
+         * Create event in the calendar of the user
+         */
         int begin_day = Integer.parseInt(day.getText().toString());
         int begin_month = parseMonth(month.getText().toString());
         int begin_year = Integer.parseInt(year.getText().toString());
@@ -163,19 +173,27 @@ public class CreateEvent extends TTSARSActivity {
     }
 
     private boolean isEmpty(TextView text) {
+        /**
+         * Check if the field is empty, util to know if the user have completed this field before
+         */
         return text.getText().length() == 0;
     }
 
     private void remove() {
+        /**
+         * Clean the fields
+         */
         day.setText("");
         month.setText("");
         year.setText("");
-        hour.setText("");
         title.setText("");
         description.setText("");
     }
 
     private boolean monthIsOk(String possible) {
+        /**
+         * Check if the month is real month
+         */
         List<String> months = Models.getMonths();
         boolean equal = false;
 
@@ -187,6 +205,9 @@ public class CreateEvent extends TTSARSActivity {
     }
 
     private int parseMonth(String month) {
+        /**
+         * Transform the month string into the int correspond with that month (0-11)
+         */
         return Models.getMonthsDict().get(month);
     }
 

@@ -34,10 +34,16 @@ public abstract class ASRActivity extends AppCompatActivity implements Recogniti
 
 
     protected void initComponents() {
+        /*
+         * Method to override on each class extends it to initialize is own attributes
+         */
         initASR();
     }
 
     private void initASR() {
+        /*
+         * Init ASR
+         */
         List<ResolveInfo> intActivities = this.getPackageManager().queryIntentActivities(
                 new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH), 0);
 
@@ -53,7 +59,9 @@ public abstract class ASRActivity extends AppCompatActivity implements Recogniti
     }
 
     public void listen() {
-        // Check we have permission to record audio
+        /*
+         * Check permission and listen if all ok
+         */
         if(hasASRPermission()) {
             startListening();
         }
@@ -80,6 +88,9 @@ public abstract class ASRActivity extends AppCompatActivity implements Recogniti
     }
 
     public boolean hasASRPermission() {
+        /*
+         * Check the permission and if don't have permission request it to the user
+         */
         if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.RECORD_AUDIO)
                 != PackageManager.PERMISSION_GRANTED) {
 
@@ -98,13 +109,23 @@ public abstract class ASRActivity extends AppCompatActivity implements Recogniti
     }
 
     void displayTalkMessage() {
+        /*
+         * Show toast to inform user that can talk and the ASR is listening
+         */
         Toast.makeText(getApplicationContext(), "Please, talk now", Toast.LENGTH_SHORT).show();
     }
 
     public void stopListening(){
+        /*
+         * Finish listening
+         */
         mASR.stopListening();
         Log.e(LOGTAG, "Stopped listening");
     }
+
+    /***********************************************************************************************
+     * ASR Interface methods
+     **********************************************************************************************/
 
     @Override
     public void onReadyForSpeech(Bundle bundle) {
@@ -207,6 +228,10 @@ public abstract class ASRActivity extends AppCompatActivity implements Recogniti
         // not need
     }
 
+    /***********************************************************************************************
+     * Activity's Methods
+     **********************************************************************************************/
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -244,6 +269,10 @@ public abstract class ASRActivity extends AppCompatActivity implements Recogniti
         else
             return super.onOptionsItemSelected(item);
     }
+
+    /***********************************************************************************************
+     * Abstracts Methods
+     **********************************************************************************************/
 
     public abstract void writeFeedback(String message);
     public abstract void errorRecognition();
